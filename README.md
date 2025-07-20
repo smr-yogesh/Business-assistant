@@ -41,7 +41,7 @@ A full-stack AI chatbot platform where business owners can submit their company 
 ---
 
 ## 📦 File Structure
-
+```
 project-root/
 
 ├── Backend/
@@ -77,7 +77,7 @@ project-root/
 │
 
 └── README.md
-
+```
 ---
 
 ## 🧪 API Usage
