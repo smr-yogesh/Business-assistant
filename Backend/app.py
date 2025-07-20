@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from utils.embeddings import get_embedding
 from utils.chunking import chunk_text
 from utils.chroma_utils import get_or_create_collection, query_chunks, add_chunks
@@ -12,7 +13,11 @@ openai.api_key = "YOUR_OPENAI_KEY"
 TEMPLATE_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../frontend/templates")
 )
-app = Flask(__name__, template_folder=TEMPLATE_DIR)
+STATIC_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "../frontend/static")
+)
+app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
+CORS(app)
 
 
 @app.route("/")

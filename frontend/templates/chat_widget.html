@@ -2,82 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Chat with Us</title>
-  <style>
-    body { font-family: sans-serif; background: #f5f5f5; }
-    #chatbox {
-      width: 300px; height: 400px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      overflow-y: auto;
-      background: white;
-    }
-    #inputRow { margin-top: 10px; display: flex; }
-    #inputRow input {
-      flex: 1; padding: 8px; border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    #inputRow button {
-      padding: 8px 10px;
-      margin-left: 5px;
-      border: none;
-      background: #007bff; color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .message { margin: 5px 0; }
-    .user { text-align: right; color: blue; }
-    .bot { text-align: left; color: green; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat Widget</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div id="chatbox"></div>
 
-  <div id="inputRow">
-    <input type="text" id="userInput" placeholder="Ask something..." />
+<div class="add-doc-container">
+  <h3>Add Business Info</h3>
+  <input id="businessIdInput" placeholder="Business ID (e.g. nimbus-noodles)" />
+  <textarea id="documentInput" placeholder="Paste your business content here..."></textarea>
+  <button onclick="addBusinessDocument()">Submit</button>
+  <p id="docResponse" style="color: green;"></p>
+</div>
+
+
+<div id="chatToggleBtn" onclick="toggleChat()" title="Chat with us!">💬</div>
+<div id="chatWidget" class="chat-container hidden">
+  <div id="chatbox" class="chatbox"></div>
+  <div class="input-area">
+    <input id="userInput" placeholder="Type a message..." autocomplete="off"/>
     <button onclick="sendMessage()">Send</button>
   </div>
+</div>
 
-  <script>
-  const business_id = "demo-biz-123"; // Will be dynamic in the future
+<script src="{{ url_for('static', filename='functions.js') }}"></script>
 
-  function appendMessage(sender, text) {
-    const div = document.createElement("div");
-    div.className = "message " + sender;
-    div.textContent = text;
-    document.getElementById("chatbox").appendChild(div);
-    document.getElementById("chatbox").scrollTop = chatbox.scrollHeight;
-  }
-
-  async function sendMessage() {
-    const input = document.getElementById("userInput");
-    const msg = input.value.trim();
-    if (!msg) return;
-
-    appendMessage("user", msg);
-    input.value = "";
-
-    const response = await fetch("http://localhost:5000/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: msg,
-        business_id: business_id
-      })
-    });
-
-    const data = await response.json();
-    appendMessage("bot", data.answer || "No response.");
-  }
-
-  // 🔑 Press Enter to send message
-  document.getElementById("userInput").addEventListener("keypress", function (e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-</script>
 </body>
 </html>

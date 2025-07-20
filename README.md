@@ -52,7 +52,6 @@ project-root/
 │ │ └── text_utils.py # Unicode/quote normalization
 │ ├── templates/ # Future use (Flask frontend)
 │ ├── static/ # JS/CSS for owner interface
-│ └── .env # (ignored) contains API key
 │
 ├── Frontend/
 │ ├── chat-widget/ # Public embed chat
