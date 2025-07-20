@@ -105,7 +105,9 @@ Content-Type: application/json
 
 ### ✅ To Run Locally
 cd Backend
+
 pip install -r requirements.txt
+
 python app.py
 
 Backend runs at: http://localhost:5000
