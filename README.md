@@ -26,7 +26,7 @@ A full-stack AI chatbot platform where business owners can submit their company 
 ### 🔧 Backend
 - ✅ Authentication system (JWT / API keys) to isolate businesses
 - ⏳ Rate limiting, logging, and error monitoring
-- 🔐 Admin dashboard (Flask or separate frontend)
+- 🔐 Admin dashboard
 
 ### 💻 Frontend
 - ✅ **Customer Chat Widget** (embed into external websites)
@@ -35,7 +35,7 @@ A full-stack AI chatbot platform where business owners can submit their company 
 
 ### 🌐 Deployment
 - 🔄 Dockerized backend
-- ☁️ Deployment to AWS (EC2 or Elastic Beanstalk) or Railway
+- ☁️ Deployment to AWS EC2
 - 🔐 Secret management with `.env` and Git ignore
 
 ---
