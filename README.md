@@ -43,39 +43,22 @@ A full-stack AI chatbot platform where business owners can submit their company 
 ## 📦 File Structure
 ```
 project-root/
-
 ├── Backend/
-
 │ ├── app.py # Main Flask app
-
 │ ├── routes/ # API routes
-
 │ ├── utils/
-
 │ │ ├── embeddings.py # OpenAI embedding logic
-
 │ │ ├── chroma_utils.py # ChromaDB collection handling
-
 │ │ └── text_utils.py # Unicode/quote normalization
-
 │ ├── templates/ # Future use (Flask frontend)
-
 │ ├── static/ # JS/CSS for owner interface
-
 │ └── .env # (ignored) contains API key
-
 │
-
 ├── Frontend/
-
 │ ├── chat-widget/ # Public embed chat
-
 │ ├── owner-ui/ # Business dashboard (in progress)
-
 │ └── templates/ # HTML templates if using Flask
-
 │
-
 └── README.md
 ```
 ---
