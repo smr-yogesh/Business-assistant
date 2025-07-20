@@ -45,7 +45,9 @@ A full-stack AI chatbot platform where business owners can submit their company 
 project-root/
 
 ├── Backend/
+
 │ ├── app.py # Main Flask app
+
 │ ├── routes/ # API routes
 
 │ ├── utils/
@@ -75,7 +77,6 @@ project-root/
 │
 
 └── README.md
-
 
 ---
 
