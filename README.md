@@ -91,17 +91,17 @@ Content-Type: application/json
 ```
 ### 💡 Tech Stack
 
-Python 3 / Flask
+- Python 3 / Flask
 
-ChromaDB (vector DB)
+- ChromaDB (vector DB)
 
-OpenAI Embeddings
+- OpenAI Embeddings
 
-HTML/CSS/JS (Frontend in progress)
+- HTML/CSS/JS (Frontend in progress)
 
-PostgreSQL (optional for business metadata later)
+- PostgreSQL (optional for business metadata later)
 
-Planned: AWS S3, OpenSearch (replaced due to cost), Auth0/Firebase
+- Planned: AWS S3, OpenSearch (replaced due to cost), Auth0/Firebase
 
 ### ✅ To Run Locally
 cd Backend
