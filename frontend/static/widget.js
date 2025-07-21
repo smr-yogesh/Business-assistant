@@ -106,7 +106,7 @@
       this.isOpen = false;
       this.isTyping = false;
       this.businessId = "";
-      this.apiBaseUrl = "http://127.0.0.1:5000/"; // CHANGE THIS
+      this.apiBaseUrl = "http://127.0.0.1:5000/api"; // CHANGE THIS
       this.initializeWidget();
       this.bindEvents();
     }

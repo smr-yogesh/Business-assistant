@@ -3,7 +3,7 @@ class BizBotWidget {
     this.isOpen = false
     this.isTyping = false
     this.businessId = ""
-    this.apiBaseUrl = "http://localhost:5000" // Update with your Flask API URL
+    this.apiBaseUrl = "http://localhost:5000/api" // Update with your Flask API URL
 
     this.initializeWidget()
     this.bindEvents()

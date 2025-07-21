@@ -2,3 +2,5 @@ flask
 openai
 chromadb
 flask-cors
+flask_bcrypt
+email_validator
