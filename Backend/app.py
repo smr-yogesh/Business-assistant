@@ -4,6 +4,7 @@ from utils.embeddings import get_embedding
 from utils.chunking import chunk_text
 from utils.chroma_utils import get_or_create_collection, query_chunks, add_chunks
 from utils.llm import get_answer
+from datetime import datetime
 import os
 
 import openai
@@ -22,6 +23,21 @@ CORS(app)
 
 @app.route("/")
 def index():
+    return render_template("index.html")
+
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
+
+@app.route("/signin")
+def signin():
+    return render_template("signin.html")
+
+
+@app.route("/widget")
+def widget():
     return render_template("chat_widget.html")
 
 
@@ -57,6 +73,11 @@ def chat():
 
     answer = get_answer(query, relevant_chunks)
     return jsonify({"answer": answer})
+
+
+@app.context_processor
+def inject_now():
+    return {"now": datetime.now()}
 
 
 if __name__ == "__main__":

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - BizBot</title>
+    <link rel="stylesheet" href="app/globals.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col">
+    <!-- Header -->
+    <header class="container mx-auto px-4 py-6">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-gray-900">BizBot</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Welcome Content -->
+    <div class="flex-1 flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-md border-0 shadow-xl rounded-2xl bg-card text-card-foreground">
+            <div class="space-y-1 text-center p-6">
+                <div class="flex justify-center mb-4">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="text-2xl font-bold">Welcome to BizBot!</h2>
+                <p class="text-sm text-muted-foreground">Your account has been created successfully</p>
+            </div>
+            
+            <div class="text-center space-y-4 p-6 pt-0">
+                <p class="text-gray-600">
+                    Thank you for joining BizBot. We're excited to help you transform your customer support experience with AI.
+                </p>
+                <p class="text-gray-600">
+                    Check your email for a verification link to complete your account setup.
+                </p>
+            </div>
+            
+            <div class="flex flex-col space-y-4 p-6 pt-0">
+                <a href="dashboard.html" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-10 px-4 py-2">
+                    Go to dashboard
+                </a>
+                <a href="index.html" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent hover:text-accent-foreground w-full h-10 px-4 py-2">
+                    Return to home
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
