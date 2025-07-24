@@ -5,6 +5,7 @@ from utils.chunking import chunk_text
 from utils.chroma_utils import get_or_create_collection, query_chunks, add_chunks
 from utils.llm import get_answer
 from routes.api import api_bp
+from routes.dashboard import dash_bp
 from routes.auth import auth_bp
 from datetime import datetime, timedelta
 from utils.extensions import db, bcrypt, jwt
@@ -24,13 +25,13 @@ STATIC_DIR = os.path.abspath(
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 app.register_blueprint(api_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(dash_bp)
 # Configuration
 app.config["SECRET_KEY"] = os.environ.get(
     "SECRET_KEY", "your-secret-key-change-in-production"
 )
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    "DATABASE_URL", "postgresql://username:password@localhost/bizbot_db"
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JWT_SECRET_KEY"] = os.environ.get(
     "JWT_SECRET_KEY", "jwt-secret-string-change-in-production"
@@ -50,7 +51,7 @@ def index():
 
 @app.route("/signup")
 def signup():
-    return render_template("signup.html")
+    return render_template("signupp.html")
 
 
 @app.route("/signin")

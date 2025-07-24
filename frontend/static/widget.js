@@ -106,7 +106,7 @@
       this.isOpen = false;
       this.isTyping = false;
       this.businessId = "";
-      this.apiBaseUrl = "http://127.0.0.1:5000/api"; // CHANGE THIS
+      this.apiBaseUrl = "http://127.0.0.1:5000/api"; // BASE API URL
       this.initializeWidget();
       this.bindEvents();
     }
@@ -180,7 +180,7 @@
           },
           body: JSON.stringify({
             query: message,
-            business_id: this.businessId || "nimbus-noodles",
+            business_id: this.businessId || "BizBot"
           }),
         });
         const data = await response.json();
@@ -272,7 +272,7 @@
       this.submitDoc.querySelector(".btn-text").classList.add("hidden");
       this.submitDoc.querySelector(".btn-loading").classList.remove("hidden");
       try {
-        const response = await fetch(`${this.apiBaseUrl}/add-document`, {
+        const response = await fetch(`${this.apiBaseUrl}/add_document`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

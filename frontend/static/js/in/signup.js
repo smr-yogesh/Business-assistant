@@ -26,6 +26,7 @@
     const agreeTerms = document.getElementById('terms').getAttribute('aria-checked') === 'true';
     const errorDiv = document.getElementById('error-message');
     const submitBtn = document.getElementById('signup-btn');
+    const welcomeUrl = document.getElementById('welcomeUrl').value;
     
     // Clear previous errors
     errorDiv.classList.add('hidden');
@@ -49,7 +50,7 @@
         const data = await res.json();
         if (res.ok) {
             // Success - redirect or show success message
-            window.location.href = 'welcome.html';
+            window.location.href = welcomeUrl;;
         } else {
             errorDiv.textContent = data.error || 'There was a problem creating your account.';
             errorDiv.classList.remove('hidden');

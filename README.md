@@ -109,4 +109,6 @@ pip install -r requirements.txt
 
 python app.py
 
+python init_db.py (initialize database)
+
 Backend runs at: http://localhost:5000

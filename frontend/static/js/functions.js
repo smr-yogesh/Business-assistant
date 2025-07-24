@@ -203,7 +203,7 @@ class BizBotWidget {
     this.submitDoc.querySelector(".btn-loading").classList.remove("hidden")
 
     try {
-      const response = await fetch(`${this.apiBaseUrl}/add-document`, {
+      const response = await fetch(`${this.apiBaseUrl}/add_document`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

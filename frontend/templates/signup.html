@@ -82,6 +82,7 @@
                         </label>
                     </div>
                 </div>
+                <input type="hidden" id="welcomeUrl" value="{{ url_for('dash.welcome') }}">
                 
                 <div class="flex flex-col space-y-4 p-6 pt-0">
                     <button
@@ -93,7 +94,7 @@
                     </button>
                     <div class="text-center text-sm">
                         Already have an account? 
-                        <a href="signin.html" class="text-blue-600 hover:text-blue-800 hover:underline font-medium">Sign in</a>
+                        <a href={{ url_for('signin') }} class="text-blue-600 hover:text-blue-800 hover:underline font-medium">Sign in</a>
                     </div>
                 </div>
             </form>
