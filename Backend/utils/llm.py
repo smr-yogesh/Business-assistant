@@ -12,7 +12,7 @@ def get_answer(query: str, context_chunks: list) -> str:
     messages = [
         {
             "role": "system",
-            "content": "You are a helpful assistant that answers based only on the given context. Be nice if asked simple greetings like hi, hello, how are you and stuff",
+            "content": "You are a helpful assistant that answers based only on the given context, give answer in every langauge query comes in. Be nice if asked simple greetings like hi, hello, how are you and stuff",
         },
         {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"},
     ]
