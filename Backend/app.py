@@ -9,6 +9,7 @@ from routes.dashboard import dash_bp
 from routes.auth import auth_bp
 from datetime import datetime, timedelta
 from utils.extensions import db, bcrypt, jwt
+from config import Config
 import os
 
 import openai
@@ -23,27 +24,11 @@ STATIC_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../frontend/static")
 )
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
+app.config.from_object(Config)
+
 app.register_blueprint(api_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(dash_bp)
-# Configuration
-app.config["SECRET_KEY"] = os.environ.get(
-    "SECRET_KEY", "your-secret-key-change-in-production"
-)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
-
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["JWT_SECRET_KEY"] = os.environ.get(
-    "JWT_SECRET_KEY", "jwt-secret-string-change-in-production"
-)
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
-app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_COOKIE_SECURE"] = False  # Set True in production (requires HTTPS)
-app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
-app.config["JWT_REFRESH_COOKIE_PATH"] = "/token/refresh"
-app.config["JWT_COOKIE_CSRF_PROTECT"] = (
-    False  # Set True in production (requires CSRF setup)
-)
 
 
 CORS(app)
