@@ -37,6 +37,14 @@ app.config["JWT_SECRET_KEY"] = os.environ.get(
     "JWT_SECRET_KEY", "jwt-secret-string-change-in-production"
 )
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_COOKIE_SECURE"] = False  # Set True in production (requires HTTPS)
+app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
+app.config["JWT_REFRESH_COOKIE_PATH"] = "/token/refresh"
+app.config["JWT_COOKIE_CSRF_PROTECT"] = (
+    False  # Set True in production (requires CSRF setup)
+)
+
 
 CORS(app)
 db.init_app(app)
@@ -47,16 +55,6 @@ jwt.init_app(app)
 @app.route("/")
 def index():
     return render_template("index.html")
-
-
-@app.route("/signup")
-def signup():
-    return render_template("signupp.html")
-
-
-@app.route("/signin")
-def signin():
-    return render_template("signin.html")
 
 
 @app.route("/widget")

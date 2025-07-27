@@ -1,5 +1,5 @@
 from flask import jsonify, request, Blueprint, render_template
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 dash_bp = Blueprint("dash", __name__)
 
@@ -13,4 +13,5 @@ def welcome():
 @dash_bp.route("/dashboard")
 @jwt_required()
 def dashboard():
+    user_id = get_jwt_identity()
     return render_template("dashboard.html")
