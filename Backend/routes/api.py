@@ -94,17 +94,9 @@ def api_signup():
         db.session.commit()
 
         access_token = create_access_token(identity=user.id)
-
-        return (
-            jsonify(
-                {
-                    "message": "User created successfully",
-                    "user": user.to_dict(),
-                    "access_token": access_token,
-                }
-            ),
-            201,
-        )
+        resp = jsonify({"message": "User created successfully", "user": user.to_dict()})
+        set_access_cookies(resp, access_token)
+        return resp, 201
 
     except Exception as e:
         db.session.rollback()
