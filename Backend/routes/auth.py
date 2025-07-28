@@ -26,3 +26,17 @@ def signin():
     if get_jwt_identity() is not None:
         return redirect(url_for("dash.dashboard"))
     return render_template("signin.html")
+
+
+@auth_bp.route("/verify-email")
+def verify_email():
+    token = request.args.get("token")
+    user = User.query.filter_by(verification_token=token).first()
+    if not user:
+        return "Invalid or expired verification link", 400
+    user.email_verified = True
+    user.verification_token = None
+    db.session.commit()
+    return render_template(
+        "email_verified.html"
+    )  # Or redirect to dashboard with "verified" message

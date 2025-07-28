@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, url_for
 from email_validator import validate_email, EmailNotValidError
 from datetime import datetime, timedelta
 from flask_jwt_extended import (
@@ -14,7 +14,9 @@ from utils.chunking import chunk_text
 from utils.chroma_utils import get_or_create_collection, query_chunks, add_chunks
 from utils.llm import get_answer
 from utils.extensions import db
+from utils.sendMail import send_mail
 from model.user import User
+import uuid
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -87,16 +89,27 @@ def api_signup():
         if existing_user:
             return jsonify({"error": "Email already registered"}), 409
 
-        user = User(name=name, email=email)
+        verification_token = str(uuid.uuid4())
+        user = User(
+            name=name,
+            email=email,
+            is_verified=False,
+            verification_token=verification_token,
+        )
         user.set_password(password)
-
-        db.session.add(user)
-        db.session.commit()
-
-        access_token = create_access_token(identity=user.id)
-        resp = jsonify({"message": "User created successfully", "user": user.to_dict()})
-        set_access_cookies(resp, access_token)
-        return resp, 201
+        verify_url = url_for(
+            "auth.verify_email", token=verification_token, _external=True
+        )
+        if send_mail(name, email, verify_url):
+            db.session.add(user)
+            db.session.commit()
+            access_token = create_access_token(identity=user.id)
+            resp = jsonify(
+                {"message": "User created successfully", "user": user.to_dict()}
+            )
+            set_access_cookies(resp, access_token)
+            return resp, 201
+        return jsonify({"error": "Internal server error"}), 500
 
     except Exception as e:
         db.session.rollback()

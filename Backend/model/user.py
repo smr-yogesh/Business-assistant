@@ -12,6 +12,7 @@ from utils.extensions import db, bcrypt
 import os
 import re
 from email_validator import validate_email, EmailNotValidError
+from sqlalchemy import Boolean, Column
 
 
 # User model
@@ -23,6 +24,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
     is_verified = db.Column(db.Boolean, default=False)
+    verification_token = db.Column(db.String(128), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow

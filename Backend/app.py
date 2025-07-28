@@ -47,6 +47,11 @@ def widget():
     return render_template("chat_widget.html")
 
 
+@app.route("/v")
+def v():
+    return render_template("verification.html")
+
+
 @app.context_processor
 def inject_now():
     return {"now": datetime.now()}
