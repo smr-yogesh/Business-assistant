@@ -24,8 +24,9 @@
     </header>
 
     <!-- Welcome Content -->
-    <div class="flex-1 flex items-center justify-center px-4 py-12">
+    <div class="flex-1 flex items-center justify-center px-4 py-12">            
         <div class="w-full max-w-md border-0 shadow-xl rounded-2xl bg-card text-card-foreground">
+            <div id="message" class="hidden p-3 text-sm bg-green-50 border border-green-200 text-green-600 rounded-lg"></div>
             <div class="space-y-1 text-center p-6">
                 <div class="flex justify-center mb-4">
                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
@@ -34,7 +35,7 @@
                         </svg>
                     </div>
                 </div>
-                <h2 class="text-2xl font-bold">Welcome to BizBot Dashboard</h2>
+                <h2 class="text-2xl font-bold">Welcome to BizBot Dashboard, {{user.name}}</h2>
                 <p class="text-sm text-muted-foreground">Your account has been created successfully</p>
             </div>
             
@@ -45,6 +46,12 @@
                 <p class="text-gray-600">
                     Check your email for a verification link to complete your account setup.
                 </p>
+                {% if not user.is_verified %}
+                <div class="verification-banner">
+                Please verify your email address!
+                <button onclick="re_Verify()" class="text-blue-600 hover:text-blue-800 hover:underline font-medium">Resend Verification Email</button>
+                </div>
+                {% endif %}
                 <button onclick="signOut()">Sign out</button>
             </div>
         </div>

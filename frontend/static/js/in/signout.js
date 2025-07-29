@@ -1,4 +1,14 @@
+const messageDiv = document.getElementById('message');
 
+async function re_Verify() {
+        const res = await fetch("/api/resend-verification", {
+        method: "POST",
+        credentials: "include"
+    });
+    const data = await res.json();
+    messageDiv.textContent = data.message || 'Invalid email or password. Please try again.';
+    messageDiv.classList.remove('hidden')
+    }
 
 async function signOut() {
         const res = await fetch("api/signout", {
@@ -11,3 +21,4 @@ async function signOut() {
             alert("Failed to sign out. Try again.");
         }
     }
+

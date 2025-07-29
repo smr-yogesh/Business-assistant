@@ -14,7 +14,6 @@ import os
 
 import openai
 
-
 openai.api_key = "YOUR_OPENAI_KEY"
 
 TEMPLATE_DIR = os.path.abspath(

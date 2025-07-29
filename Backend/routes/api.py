@@ -159,6 +159,24 @@ def signin():
         return jsonify({"error": "Internal server error"}), 500
 
 
+@api_bp.route("/resend-verification", methods=["POST"])
+@jwt_required()
+def resend_verification():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if user.is_verified:
+        return jsonify({"message": "Already verified"}), 400
+    # Generate new token
+    user.verification_token = str(uuid.uuid4())
+    db.session.commit()
+    verify_url = url_for(
+        "auth.verify_email", token=user.verification_token, _external=True
+    )
+    if send_mail(user.name, user.email, verify_url):
+        return jsonify({"message": "Verification email sent!"}), 200
+    print(f"something went wrong")
+
+
 @api_bp.route("/signout", methods=["POST"])
 def signout():
     resp = jsonify({"message": "Sign out successful"})

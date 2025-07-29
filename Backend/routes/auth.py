@@ -34,7 +34,7 @@ def verify_email():
     user = User.query.filter_by(verification_token=token).first()
     if not user:
         return "Invalid or expired verification link", 400
-    user.email_verified = True
+    user.is_verified = True
     user.verification_token = None
     db.session.commit()
     return render_template(

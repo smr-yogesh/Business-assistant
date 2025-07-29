@@ -59,3 +59,17 @@
                 submitBtn.textContent = 'Sign in';
             }
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+        const resendBtn = document.getElementById("resend-verification-btn");
+        if (resendBtn) {
+            resendBtn.addEventListener("click", async function() {
+                const res = await fetch("/api/resend-verification", {
+                method: "POST",
+                credentials: "include"
+            });
+            const data = await res.json();
+            alert(data.message);
+        });
+        }
+    });

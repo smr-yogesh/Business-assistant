@@ -1,19 +1,20 @@
-from flask import jsonify, request, Blueprint, render_template
-import smtplib
 import os
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from flask import render_template
+from dotenv import load_dotenv
+from pathlib import Path
 
-validator = Blueprint("validator", __name__)
-# SMTP Configuration
+load_dotenv(override=True)
+
 SMTP_SERVER = os.getenv("SMTP_SERVER")
-SMTP_PORT = os.getenv("SMTP_PORT")
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SMTP_USERNAME = os.getenv("SMTP_USERNAME")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 
 
-def send_mail(name, email, otp):
-    # Function to send email with OTP
+def send_mail(name, email, otp_link):
     try:
         # Set up the server
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
@@ -26,18 +27,18 @@ def send_mail(name, email, otp):
         msg["To"] = email
         msg["Subject"] = "Your OTP Code"
 
-        # Email body
-        # Render the HTML template with the OTP
+        # Render HTML body with Jinja2/flask template
         body = render_template(
-            "verification.html", user_name=name, verification_link=otp
+            "verification.html", user_name=name, verification_link=otp_link
         )
         msg.attach(MIMEText(body, "html"))
 
         # Send the email
         server.send_message(msg)
         server.quit()
-
+        print("Email sent!")
         return True
+
     except Exception as e:
         print(f"Failed to send email: {e}")
         return False
