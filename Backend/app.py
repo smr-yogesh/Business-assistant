@@ -1,9 +1,5 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
-from utils.embeddings import get_embedding
-from utils.chunking import chunk_text
-from utils.chroma_utils import get_or_create_collection, query_chunks, add_chunks
-from utils.llm import get_answer
 from routes.api import api_bp
 from routes.dashboard import dash_bp
 from routes.auth import auth_bp
@@ -46,9 +42,14 @@ def widget():
     return render_template("chat_widget.html")
 
 
-@app.route("/v")
-def v():
-    return render_template("verification.html")
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html")
+
+
+@jwt.unauthorized_loader
+def my_invalid_token_callback(expired_token):
+    return redirect(url_for("auth.signin"))
 
 
 @app.context_processor
