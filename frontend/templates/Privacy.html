@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizBot - Your Website's AI Assistant</title>
+    <link rel="stylesheet" href="appccvx/globals.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <!-- Header -->
+    <header class="container mx-auto px-4 py-6">
+        <nav class="flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-gray-900">BizBot</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <a href="/signin">Sign In</a>
+                </button>
+                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-10 px-4 py-2">
+                    <a href="/signup">Get Started</a>
+            </button>
+            </div>
+        </nav>
+    </header>
+    <div class="privacy-container">
+  <h1>Privacy Policy</h1>
+  <p class="privacy-date">Effective Date: <span>[31-07-2025]</span></p>
+  <ol class="privacy-list">
+    <li>
+      <strong>Information We Collect</strong>
+      <ul>
+        <li><b>Account Information:</b> Name, email, and other registration data</li>
+        <li><b>Business Content:</b> Information you upload (e.g., business info, FAQs)</li>
+        <li><b>Usage Data:</b> Analytics and log data about how you use the Service</li>
+      </ul>
+    </li>
+    <li>
+      <strong>How We Use Information</strong>
+      <ul>
+        <li>To provide and operate the Service</li>
+        <li>To communicate with you (e.g., notifications, updates)</li>
+        <li>To improve and secure the Service</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Data Sharing</strong>
+      <ul>
+        <li>We do not sell or rent your personal data</li>
+        <li>We may share data with trusted third parties (e.g., cloud providers, analytics) as needed to operate the Service</li>
+        <li>We may disclose information to comply with legal obligations</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Data Security</strong><br>
+      We implement industry-standard security measures to protect your data. No method is 100% secure; use the Service at your own risk.
+    </li>
+    <li>
+      <strong>Data Retention</strong><br>
+      We retain your information as long as your account is active or as necessary to provide the Service.
+    </li>
+    <li>
+      <strong>Your Rights</strong><br>
+      You may access, update, or delete your account information by contacting us.
+    </li>
+    <li>
+      <strong>Children’s Privacy</strong><br>
+      The Service is not intended for users under 16. We do not knowingly collect personal data from children.
+    </li>
+    <li>
+      <strong>Changes to this Policy</strong><br>
+      We may update this Privacy Policy from time to time. Material changes will be notified via email or Service notice.
+    </li>
+    <li>
+      <strong>Contact</strong><br>
+      If you have questions or concerns, contact us at [help@bizbot.cc].
+    </li>
+  </ol>
+</div>
+
+<style>
+.privacy-container {
+  max-width: 600px;
+  margin: 5vh auto 0 auto;
+  padding: 2rem 2.5rem;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.privacy-container h1 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: #1e293b;
+}
+.privacy-date {
+  color: #475569;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+.privacy-list {
+  width: 100%;
+  padding-left: 1.1rem;
+  color: #334155;
+  font-size: 1.07rem;
+  line-height: 1.6;
+}
+.privacy-list > li {
+  margin-bottom: 1.1em;
+}
+.privacy-list ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 1.2em;
+  list-style-type: disc;
+}
+</style>
+
+    <!-- Footer -->
+    <footer class="container mx-auto px-4 py-8 text-center text-gray-500">
+        <div class="flex items-center justify-center space-x-2 mb-4">
+            <div class="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+            </div>
+            <span class="font-semibold">BizBot</span>
+        </div>
+        <p>&copy; {{ now.year }} BizBot. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/chatDemo.js') }}"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from flask import render_template
+from flask import render_template, flash
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -37,6 +37,7 @@ def send_mail(name, email, otp_link):
         server.send_message(msg)
         server.quit()
         print("Email sent!")
+        flash("Email sent!")
         return True
 
     except Exception as e:

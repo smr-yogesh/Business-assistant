@@ -15,4 +15,4 @@ def welcome():
 @jwt_required()
 def dashboard():
     user = User.query.get(get_jwt_identity())
-    return render_template("dashboard.html", user=user)
+    return render_template("dashboard/dash.html", user=user)

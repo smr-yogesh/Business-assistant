@@ -5,6 +5,7 @@ async function re_Verify() {
         method: "POST",
         credentials: "include"
     });
+    dashboard.showNotification("Verification Email sent!", "success")
     const data = await res.json();
     messageDiv.textContent = data.message || 'Invalid email or password. Please try again.';
     messageDiv.classList.remove('hidden')

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizBot - Your Website's AI Assistant</title>
+    <link rel="stylesheet" href="appccvx/globals.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <!-- Header -->
+    <header class="container mx-auto px-4 py-6">
+        <nav class="flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-gray-900">BizBot</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <a href="/signin">Sign In</a>
+                </button>
+                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-10 px-4 py-2">
+                    <a href="/signup">Get Started</a>
+            </button>
+            </div>
+        </nav>
+    </header>
+    <div class="tos-container">
+        <h1>Terms of Service (TOS)</h1>
+        <p class="tos-date">Effective Date: <span>[31-07-2025]</span></p>
+            <ol class="tos-list">
+                <li>
+                <strong>Acceptance of Terms</strong><br>
+                By accessing or using BizBot (the “Service”), you agree to these Terms of Service. If you do not agree, do not use the Service.
+                </li>
+                <li>
+                <strong>Service Description</strong><br>
+                BizBot provides a chat widget and dashboard to enable businesses to answer customer questions automatically using AI. The Service is provided “as is” and “as available.”
+                </li>
+                <li>
+                <strong>User Accounts</strong><br>
+                You are responsible for maintaining the confidentiality of your account and password. You are responsible for all activities that occur under your account.
+                </li>
+                <li>
+                <strong>User Content</strong><br>
+                You retain ownership of any business content or data you upload. By providing content, you grant BizBot a license to use, display, and process your data solely to provide and improve the Service.
+                </li>
+                <li>
+                <strong>Acceptable Use</strong><br>
+                You agree not to misuse the Service or assist anyone in doing so. Prohibited activities include:
+                <ul>
+                    <li>Uploading unlawful, harmful, or infringing content</li>
+                    <li>Attempting to gain unauthorized access</li>
+                    <li>Interfering with or disrupting the Service</li>
+                </ul>
+                </li>
+                <li>
+                <strong>Intellectual Property</strong><br>
+                All rights, title, and interest in BizBot (excluding your content) remain with the creators of BizBot.
+                </li>
+                <li>
+                <strong>Termination</strong><br>
+                We may suspend or terminate your access to the Service at any time, with or without notice, for any reason.
+                </li>
+                <li>
+                <strong>Disclaimer & Limitation of Liability</strong><br>
+                The Service is provided “as is” with no warranties. We are not liable for any indirect, incidental, or consequential damages arising from your use of the Service.
+                </li>
+                <li>
+                <strong>Modifications</strong><br>
+                We may modify these Terms at any time. Continued use of the Service constitutes acceptance of the modified Terms.
+                </li>
+                <li>
+                <strong>Contact</strong><br>
+                For questions, contact us at [help@bizbot.cc].
+                </li>
+            </ol>
+</div>
+
+<style>
+.tos-container {
+  max-width: 600px;
+  margin: 5vh auto 0 auto;
+  padding: 2rem 2.5rem;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tos-container h1 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: #1e293b;
+}
+.tos-date {
+  color: #475569;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+.tos-list {
+  width: 100%;
+  padding-left: 1.1rem;
+  color: #334155;
+  font-size: 1.07rem;
+  line-height: 1.6;
+}
+.tos-list > li {
+  margin-bottom: 1.1em;
+}
+.tos-list ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 1.2em;
+  list-style-type: disc;
+}
+</style>
+
+    
+    <!-- Footer -->
+    <footer class="container mx-auto px-4 py-8 text-center text-gray-500">
+        <div class="flex items-center justify-center space-x-2 mb-4">
+            <div class="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+            </div>
+            <span class="font-semibold">BizBot</span>
+        </div>
+        <p>&copy; {{ now.year }} BizBot. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/chatDemo.js') }}"></script>
+</body>
+</html>

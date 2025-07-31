@@ -37,6 +37,16 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/tos")
+def tos():
+    return render_template("TOS.html")
+
+
+@app.route("/privacy-policy")
+def privacy():
+    return render_template("Privacy.html")
+
+
 @app.route("/widget")
 def widget():
     return render_template("chat_widget.html")
@@ -48,7 +58,7 @@ def not_found(e):
 
 
 @jwt.unauthorized_loader
-def my_invalid_token_callback(expired_token):
+def invalid_token_callback(expired_token):
     return redirect(url_for("auth.signin"))
 
 

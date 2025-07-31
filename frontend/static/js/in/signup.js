@@ -1,4 +1,5 @@
 // Checkbox functionality
+
         document.getElementById('terms').addEventListener('click', function() {
             const isChecked = this.getAttribute('aria-checked') === 'true';
             const newState = !isChecked;

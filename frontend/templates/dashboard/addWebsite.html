@@ -1,0 +1,106 @@
+<!-- Add Website Modal -->
+<div class="modal" id="addWebsiteModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Add New Website</h3>
+                <button class="modal-close" onclick="closeAddWebsiteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="website-form">
+                    <div class="form-section">
+                        <h4 class="section-title">Website Information</h4>
+                        
+                        <div class="form-group">
+                            <label for="websiteUrl">Website URL *</label>
+                            <input type="url" id="websiteUrl" placeholder="https://yourwebsite.com" required>
+                            <small class="form-help">Enter the full URL of your website where BizBot will be installed</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="businessContent">Business Content *</label>
+                            <textarea id="businessContent" placeholder="Paste your business content here (menus, FAQs, services, policies, etc.)..." rows="8" required></textarea>
+                            <small class="form-help">Add your business information, FAQs, menu items, services, and any content you want BizBot to know about</small>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4 class="section-title">Pricing Plan</h4>
+                        
+                        <div class="pricing-options">
+                            <div class="pricing-option">
+                                <input type="radio" id="monthly" name="billing" value="monthly" checked>
+                                <label for="monthly" class="pricing-label">
+                                    <div class="pricing-header">
+                                        <span class="pricing-title">Monthly Plan</span>
+                                        <span class="pricing-badge">Flexible</span>
+                                    </div>
+                                    <div class="pricing-price">$29/month</div>
+                                    <div class="pricing-features">
+                                        <span>✓ Unlimited conversations</span>
+                                        <span>✓ 24/7 AI support</span>
+                                        <span>✓ Analytics dashboard</span>
+                                        <span>✓ Cancel anytime</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="pricing-option">
+                                <input type="radio" id="yearly" name="billing" value="yearly">
+                                <label for="yearly" class="pricing-label">
+                                    <div class="pricing-header">
+                                        <span class="pricing-title">Yearly Plan</span>
+                                        <span class="pricing-badge popular">Save 31%</span>
+                                    </div>
+                                    <div class="pricing-price">$20/month</div>
+                                    <div class="pricing-subtext">Billed annually ($240/year)</div>
+                                    <div class="pricing-features">
+                                        <span>✓ Everything in Monthly</span>
+                                        <span>✓ Priority support</span>
+                                        <span>✓ Advanced analytics</span>
+                                        <span>✓ Custom branding</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="cost-summary">
+                            <div class="cost-breakdown">
+                                <div class="cost-item">
+                                    <span>Plan:</span>
+                                    <span id="selectedPlan">Monthly Plan</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Billing:</span>
+                                    <span id="billingFrequency">Monthly</span>
+                                </div>
+                                <div class="cost-item total">
+                                    <span>Total Cost:</span>
+                                    <span id="totalCost">$29.00/month</span>
+                                </div>
+                            </div>
+                            <div class="cost-savings" id="costSavings" style="display: none;">
+                                <div class="savings-badge">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20,6 9,17 4,12"></polyline>
+                                    </svg>
+                                    You save $108/year with the yearly plan!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeAddWebsiteModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitWebsite()" id="submitWebsiteBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Website & Start Plan
+                </button>
+            </div>
+        </div>
+    </div>
