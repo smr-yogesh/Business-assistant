@@ -1,0 +1,92 @@
+<div class="page-header">
+                        <div class="page-title">
+                            <h2>Settings</h2>
+                            <p>Manage your account settings and preferences</p>
+                        </div>
+                    </div>
+
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Profile Information</h3>
+                            <p class="card-description">Update your personal details and website information.</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-group disabled" id="name-group">
+                                <label for="settingName">Name</label>
+                                <input type="text" id="settingName" value={{user.name}} disabled>
+                            </div>
+                            <div class="form-group disabled" id="email-group">
+                                <label for="settingEmail">Email</label>
+                                <input type="email" id="settingEmail" value={{user.email}} disabled>
+                            </div>
+                            <div class="form-group disabled" id="website-group">
+                                <label for="settingWebsite">Website URL</label>
+                                <input type="url" id="settingWebsite" value="https://www.bizbot.com" disabled>
+                            </div>
+                            <div class="settings-actions">
+                                <button class="btn btn-outline btn-edit" id="editProfileBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Edit Profile
+                                </button>
+                                <button class="btn btn-primary btn-save hidden" id="saveProfileBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20,6 9,17 4,12"></polyline>
+                                    </svg>
+                                    Save Changes
+                                </button>
+                                <button class="btn btn-outline btn-cancel hidden" id="cancelProfileBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Password</h3>
+                            <p class="card-description">Change your password.</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-group disabled" id="current-password-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" value="********" disabled>
+                            </div>
+                            <div class="form-group disabled" id="new-password-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" disabled>
+                            </div>
+                            <div class="form-group disabled" id="confirm-password-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" disabled>
+                            </div>
+                            <div class="settings-actions">
+                                <button class="btn btn-outline btn-edit" id="editPasswordBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Change Password
+                                </button>
+                                <button class="btn btn-primary btn-save hidden" id="savePasswordBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20,6 9,17 4,12"></polyline>
+                                    </svg>
+                                    Save Password
+                                </button>
+                                <button class="btn btn-outline btn-cancel hidden" id="cancelPasswordBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>

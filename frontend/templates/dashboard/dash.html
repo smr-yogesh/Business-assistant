@@ -336,7 +336,7 @@
                         </div>
                         <div class="card-content">
                             <div class="code-block">
-                                <pre><code>&lt;script src="https://widget.bizbot.com/v1/widget.js"&gt;&lt;/script&gt;</code></pre>
+                                <pre><code>&lt;script src="https://bizbot.cc/widget.js"&gt;&lt;/script&gt;</code></pre>
                                 <button class="copy-btn" onclick="copyCode()">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -526,22 +526,17 @@
                 </div>
 
                 <div class="view-content" id="settings-view">
-                    <div class="coming-soon">
-                        <h3>Settings Panel Coming Soon</h3>
-                        <p>Account settings, API keys, and preferences will be available here.</p>
-                    </div>
+                    {% include "dashboard/settings.html" %}
                 </div>
 
                 <div class="view-content" id="billing-view">
-                    <div class="coming-soon">
-                        <h3>Billing Dashboard Coming Soon</h3>
-                        <p>Subscription management and billing details will be available here.</p>
-                    </div>
+                    {% include "dashboard/biling.html" %}
                 </div>
             </div>
         </main>
     </div>
     {% include "dashboard/addWebsite.html" %}
+    <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/in/signout.js') }}"></script>
 </body>
