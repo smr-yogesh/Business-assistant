@@ -171,16 +171,15 @@
 
                     <div class="user-dropdown">
                         <button class="user-btn" id="userBtn">
-                            <div class="user-avatar">{{user.name[1]}}</div>
+                            <div class="user-avatar">{{user.name[0]}}</div>
                         </button>
                         <div class="dropdown-content" id="userDropdown">
                             <div class="dropdown-header">
                                 <div class="user-name">{{user.name}}</div>
                                 <div class="user-email">{{user.email}}</div>
                             </div>
-                            <a href="#" class="dropdown-item">Profile Settings</a>
-                            <a href="#" class="dropdown-item">Account Settings</a>
-                            <a href="#" class="dropdown-item">API Keys</a>
+                            <a href="#" class="dropdown-item" data-view="settings" >Profile Settings</a>
+                            <a href="#" class="dropdown-item" data-view="settings" >Account Settings</a>
                             <div class="dropdown-divider"></div>
                             <a href="#" onclick="signOut()" class="dropdown-item">Sign Out</a>
                         </div>
@@ -538,6 +537,7 @@
     {% include "dashboard/addWebsite.html" %}
     <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/website-modal.js') }}"></script>
     <script src="{{ url_for('static', filename='js/in/signout.js') }}"></script>
 </body>
 </html>

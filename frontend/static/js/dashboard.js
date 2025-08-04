@@ -26,6 +26,16 @@ class Dashboard {
       })
     })
 
+    document.querySelectorAll(".dropdown-item[data-view]").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault()
+        const view = e.currentTarget.getAttribute("data-view")
+        this.showView(view)
+        this.setActiveNavLink(e.currentTarget)
+      })
+    })
+
+
     // Sidebar toggle
     const sidebarToggle = document.getElementById("sidebarToggle")
     if (sidebarToggle) {

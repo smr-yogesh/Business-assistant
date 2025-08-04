@@ -177,8 +177,98 @@ def resend_verification():
     print(f"something went wrong")
 
 
+@api_bp.route("/update_profile", methods=["POST"])
+@jwt_required()
+def update_profile():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    data = request.get_json()
+    updated_fields = {}
+
+    # Check and validate each field if present
+    name = data.get("name")
+    email = data.get("email")
+    website = data.get("website")
+
+    if name:
+        user.name = name.strip()
+        updated_fields["name"] = user.name
+
+    if email:
+        try:
+            validate_email(email)
+        except EmailNotValidError:
+            return jsonify({"message": "Invalid email format"}), 400
+        # Optionally check if email is already taken by another user
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user and existing_user.id != user_id:
+            return jsonify({"message": "Email already in use"}), 409
+        user.email = email.strip().lower()
+        updated_fields["email"] = user.email
+        user.is_verified = False
+
+    if website:
+        user.website = website.strip()
+        updated_fields["website"] = user.website
+
+    if not updated_fields:
+        return jsonify({"message": "No valid fields to update"}), 400
+
+    db.session.commit()
+    return (
+        jsonify({"message": "Profile updated successfully", "user": user.to_dict()}),
+        200,
+    )
+
+
+@api_bp.route("/change_password", methods=["POST"])
+@jwt_required()
+def change_password():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    data = request.get_json()
+    current_password = data.get("currentPassword", "")
+    new_password = data.get("newPassword", "")
+
+    if not current_password or not new_password:
+        return jsonify({"error": "Current and new password are required"}), 400
+
+    if not user.check_password(current_password):
+        return jsonify({"error": "Current password is incorrect"}), 401
+
+    is_valid, message = validate_password(new_password)
+    if not is_valid:
+        return jsonify({"error": message}), 400
+
+    user.set_password(new_password)
+    db.session.commit()
+    return jsonify({"message": "Password changed successfully"}), 200
+
+
 @api_bp.route("/signout", methods=["POST"])
+@jwt_required()
 def signout():
     resp = jsonify({"message": "Sign out successful"})
+    unset_jwt_cookies(resp)
+    return resp, 200
+
+
+@api_bp.route("/delete_account", methods=["POST"])
+@jwt_required()
+def delete_account():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    db.session.delete(user)
+    db.session.commit()
+    resp = jsonify({"message": "Account deleted successfully"})
     unset_jwt_cookies(resp)
     return resp, 200
