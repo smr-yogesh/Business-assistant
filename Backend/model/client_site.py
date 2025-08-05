@@ -26,3 +26,6 @@ class ClientSite(db.Model):
                 self.subscription_end.isoformat() if self.subscription_end else None
             ),
         }
+
+
+# new model welcome
