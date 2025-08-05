@@ -3,7 +3,6 @@ class SettingsManager {
     this.profileFields = {
       name: document.getElementById("settingName"),
       email: document.getElementById("settingEmail"),
-      website: document.getElementById("settingWebsite"),
     }
     this.passwordFields = {
       current: document.getElementById("currentPassword"),
@@ -52,7 +51,6 @@ class SettingsManager {
     const loadedProfile = {
       name: this.profileFields.name.value,
       email: this.profileFields.email.value,
-      website: this.profileFields.website.value,
     }
 
     // Store original values
@@ -61,7 +59,6 @@ class SettingsManager {
     // Set initial field values and disable them
     this.profileFields.name.value = loadedProfile.name
     this.profileFields.email.value = loadedProfile.email
-    this.profileFields.website.value = loadedProfile.website
     this.toggleProfileEditMode(false)
 
     // Password fields are always initially disabled and have placeholder values
@@ -105,21 +102,15 @@ class SettingsManager {
     const updatedProfile = {
       name: this.profileFields.name.value.trim(),
       email: this.profileFields.email.value.trim(),
-      website: this.profileFields.website.value.trim(),
     }
 
     // Basic validation
-    if (!updatedProfile.name || !updatedProfile.email || !updatedProfile.website) {
+    if (!updatedProfile.name || !updatedProfile.email) {
       window.dashboard.showNotification("All profile fields are required.", "error")
       return
     }
     if (!this.isValidEmail(updatedProfile.email)) {
       window.dashboard.showNotification("Please enter a valid email address.", "error")
-      return
-    }
-    if (!window.dashboard.isValidUrl(updatedProfile.website)) {
-      // Re-using dashboard's URL validator
-      window.dashboard.showNotification("Please enter a valid website URL.", "error")
       return
     }
 
@@ -158,7 +149,6 @@ class SettingsManager {
     // Revert to original values
     this.profileFields.name.value = this.originalProfileValues.name
     this.profileFields.email.value = this.originalProfileValues.email
-    this.profileFields.website.value = this.originalProfileValues.website
     this.toggleProfileEditMode(false)
     window.dashboard.showNotification("Profile changes cancelled.", "info")
   }

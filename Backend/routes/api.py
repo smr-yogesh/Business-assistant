@@ -16,6 +16,7 @@ from utils.llm import get_answer
 from utils.extensions import db
 from utils.sendMail import send_mail
 from model.user import User
+from model.client_site import ClientSite
 import uuid
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
@@ -191,7 +192,6 @@ def update_profile():
     # Check and validate each field if present
     name = data.get("name")
     email = data.get("email")
-    website = data.get("website")
 
     if name:
         user.name = name.strip()
@@ -209,10 +209,6 @@ def update_profile():
         user.email = email.strip().lower()
         updated_fields["email"] = user.email
         user.is_verified = False
-
-    if website:
-        user.website = website.strip()
-        updated_fields["website"] = user.website
 
     if not updated_fields:
         return jsonify({"message": "No valid fields to update"}), 400

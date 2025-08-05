@@ -9,7 +9,16 @@ def run_migrations():
         migrations = [
             # 1. Add new columns (safe, won't fail if already exists)
             """
-            ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT FALSE;
+            CREATE TABLE IF NOT EXISTS client_site (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL,
+                business_id INTEGER NOT NULL,
+                site_url VARCHAR(255) NOT NULL,
+                subscription_type VARCHAR(50) NOT NULL,
+                subscription_start TIMESTAMP NOT NULL,
+                subscription_end TIMESTAMP NOT NULL
+            );
+
             """,
             # Add more migration SQL here as needed...
         ]
