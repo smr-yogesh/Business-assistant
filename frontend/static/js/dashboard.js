@@ -3,7 +3,6 @@ class Dashboard {
   constructor() {
     this.currentView = "dashboard"
     this.sidebarCollapsed = false
-    this.websiteModal = null // Add this line
     this.init()
   }
 
@@ -12,7 +11,6 @@ class Dashboard {
     this.setupDropdowns()
     this.setupTabs()
     this.showView("dashboard")
-    this.setupWebsiteModal()
   }
 
   setupEventListeners() {
@@ -34,7 +32,6 @@ class Dashboard {
         this.setActiveNavLink(e.currentTarget)
       })
     })
-
 
     // Sidebar toggle
     const sidebarToggle = document.getElementById("sidebarToggle")
@@ -59,14 +56,14 @@ class Dashboard {
       })
     }
 
-    // Close modals when clicking outside
+    // Close modals when clicking outside (excluding website modal)
     document.addEventListener("click", (e) => {
-      if (e.target.classList.contains("modal")) {
+      if (e.target.classList.contains("modal") && e.target.id !== "addWebsiteModal") {
         this.closeModal(e.target.id)
       }
     })
 
-    // Escape key to close modals
+    // Escape key to close modals (excluding website modal)
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         this.closeAllModals()
@@ -111,56 +108,6 @@ class Dashboard {
         this.setActiveTab(e.currentTarget)
       })
     })
-  }
-
-  setupWebsiteModal() {
-    // Setup pricing calculator
-    const monthlyRadio = document.getElementById("monthly")
-    const yearlyRadio = document.getElementById("yearly")
-
-    if (monthlyRadio && yearlyRadio) {
-      monthlyRadio.addEventListener("change", () => this.updatePricingDisplay())
-      yearlyRadio.addEventListener("change", () => this.updatePricingDisplay())
-    }
-
-    // Initialize display
-    this.updatePricingDisplay()
-  }
-
-  updatePricingDisplay() {
-    const monthlyRadio = document.getElementById("monthly")
-    const yearlyRadio = document.getElementById("yearly")
-    const selectedPlan = document.getElementById("selectedPlan")
-    const billingFrequency = document.getElementById("billingFrequency")
-    const totalCost = document.getElementById("totalCost")
-    const costSavings = document.getElementById("costSavings")
-    const submitBtn = document.getElementById("submitWebsiteBtn")
-
-    if (monthlyRadio && monthlyRadio.checked) {
-      selectedPlan.textContent = "Monthly Plan"
-      billingFrequency.textContent = "Monthly"
-      totalCost.textContent = "$29.00/month"
-      costSavings.style.display = "none"
-      submitBtn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Start Monthly Plan - $29/month
-      `
-    } else if (yearlyRadio && yearlyRadio.checked) {
-      selectedPlan.textContent = "Yearly Plan"
-      billingFrequency.textContent = "Annually"
-      totalCost.textContent = "$240.00/year"
-      costSavings.style.display = "block"
-      submitBtn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Start Yearly Plan - $240/year
-      `
-    }
   }
 
   showView(viewName) {
@@ -257,6 +204,9 @@ class Dashboard {
   }
 
   openModal(modalId) {
+    // Skip website modal - handled by website-modal.js
+    if (modalId === "addWebsiteModal") return
+    
     const modal = document.getElementById(modalId)
     if (modal) {
       modal.classList.add("show")
@@ -272,6 +222,9 @@ class Dashboard {
   }
 
   closeModal(modalId) {
+    // Skip website modal - handled by website-modal.js
+    if (modalId === "addWebsiteModal") return
+    
     const modal = document.getElementById(modalId)
     if (modal) {
       modal.classList.remove("show")
@@ -281,6 +234,8 @@ class Dashboard {
 
   closeAllModals() {
     document.querySelectorAll(".modal").forEach((modal) => {
+      // Skip website modal - handled by website-modal.js
+      if (modal.id === "addWebsiteModal") return
       modal.classList.remove("show")
     })
     document.body.style.overflow = ""
@@ -342,84 +297,6 @@ class Dashboard {
     }, 4000)
   }
 
-  validateWebsiteForm() {
-    const websiteUrl = document.getElementById("websiteUrl")
-    const businessContent = document.getElementById("businessContent")
-    let isValid = true
-
-    // Clear previous error messages
-    document.querySelectorAll(".error-message").forEach((msg) => {
-      msg.remove()
-    })
-
-    // Reset field styles
-    document.querySelectorAll(".form-group input, .form-group textarea").forEach((field) => {
-      field.style.borderColor = ""
-    })
-
-    // Validate URL
-    if (!websiteUrl.value.trim()) {
-      this.showFieldError(websiteUrl, "Website URL is required")
-      isValid = false
-    } else if (!this.isValidUrl(websiteUrl.value.trim())) {
-      this.showFieldError(websiteUrl, "Please enter a valid URL (e.g., https://yourwebsite.com)")
-      isValid = false
-    }
-
-    // Validate business content
-    if (!businessContent.value.trim()) {
-      this.showFieldError(businessContent, "Business content is required")
-      isValid = false
-    } else if (businessContent.value.trim().length < 50) {
-      this.showFieldError(businessContent, "Please provide at least 50 characters of business content")
-      isValid = false
-    }
-
-    return isValid
-  }
-
-  showFieldError(field, message) {
-    const errorMsg = document.createElement("div")
-    errorMsg.className = "error-message show"
-    errorMsg.textContent = message
-    field.parentNode.appendChild(errorMsg)
-    field.style.borderColor = "#ef4444"
-  }
-
-  isValidUrl(string) {
-    try {
-      const url = new URL(string)
-      return url.protocol === "http:" || url.protocol === "https:"
-    } catch (_) {
-      return false
-    }
-  }
-
-  resetWebsiteForm() {
-    const websiteUrl = document.getElementById("websiteUrl")
-    const businessContent = document.getElementById("businessContent")
-    const monthlyRadio = document.getElementById("monthly")
-    const yearlyRadio = document.getElementById("yearly")
-
-    if (websiteUrl) websiteUrl.value = ""
-    if (businessContent) businessContent.value = ""
-    if (monthlyRadio) monthlyRadio.checked = true
-    if (yearlyRadio) yearlyRadio.checked = false
-
-    // Clear error messages
-    document.querySelectorAll(".error-message").forEach((msg) => {
-      msg.remove()
-    })
-
-    // Reset field styles
-    document.querySelectorAll(".form-group input, .form-group textarea").forEach((field) => {
-      field.style.borderColor = ""
-    })
-
-    // Reset pricing display
-    this.updatePricingDisplay()
-  }
-
   filterContent(searchTerm) {
     const rows = document.querySelectorAll(".data-table tbody tr")
 
@@ -478,7 +355,7 @@ class Dashboard {
   }
 }
 
-// Global functions for HTML onclick handlers
+// Global functions for HTML onclick handlers (non-website modal functions)
 function openAddContentModal() {
   dashboard.openModal("addContentModal")
 }
@@ -579,55 +456,6 @@ function viewConversation(conversationId) {
 
 function closeConversationModal() {
   dashboard.closeModal("conversationModal")
-}
-
-function openAddWebsiteModal() {
-  dashboard.openModal("addWebsiteModal")
-}
-
-function closeAddWebsiteModal() {
-  dashboard.closeModal("addWebsiteModal")
-  dashboard.resetWebsiteForm()
-}
-
-function submitWebsite() {
-  if (!dashboard.validateWebsiteForm()) {
-    dashboard.showNotification("Please fix the errors above", "error")
-    return
-  }
-
-  const websiteUrl = document.getElementById("websiteUrl").value.trim()
-  const businessContent = document.getElementById("businessContent").value.trim()
-  const billingType = document.querySelector('input[name="billing"]:checked').value
-  const submitBtn = document.getElementById("submitWebsiteBtn")
-
-  // Show loading state
-  submitBtn.classList.add("loading")
-  submitBtn.disabled = true
-
-  // Simulate API call
-  setTimeout(() => {
-    // Success simulation
-    const planType = billingType === "monthly" ? "Monthly" : "Yearly"
-    const cost = billingType === "monthly" ? "$29/month" : "$240/year"
-
-    dashboard.showNotification(`Website added successfully! ${planType} plan (${cost}) activated.`, "success")
-
-    // Reset form and close modal
-    closeAddWebsiteModal()
-
-    // Remove loading state
-    submitBtn.classList.remove("loading")
-    submitBtn.disabled = false
-
-    // Log the data (in real app, this would be sent to server)
-    console.log("Website added:", {
-      url: websiteUrl,
-      content: businessContent,
-      billing: billingType,
-      timestamp: new Date().toISOString(),
-    })
-  }, 2000) // Simulate 2 second API call
 }
 
 function copyCode() {
