@@ -72,7 +72,7 @@
       if (monthlyRadio && monthlyRadio.checked) {
         selectedPlan.textContent = 'Monthly Plan';
         billingFrequency.textContent = 'Monthly';
-        totalCost.textContent = '$29.00/month';
+        totalCost.textContent = '$14.99/month';
         if (costSavings) costSavings.style.display = 'none';
         
         submitBtn.innerHTML = `
@@ -80,12 +80,12 @@
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
-          Start Monthly Plan - $29/month
+          Start Monthly Plan - $14.99/month
         `;
       } else if (yearlyRadio && yearlyRadio.checked) {
         selectedPlan.textContent = 'Yearly Plan';
         billingFrequency.textContent = 'Annually';
-        totalCost.textContent = '$240.00/year';
+        totalCost.textContent = '$149.99/year';
         if (costSavings) costSavings.style.display = 'block';
         
         submitBtn.innerHTML = `
@@ -93,7 +93,7 @@
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
-          Start Yearly Plan - $240/year
+          Start Yearly Plan - $149.99/year
         `;
       }
     }
@@ -208,59 +208,71 @@
     }
 
     async submitForm() {
-      if (this.isSubmitting) return;
-      
-      if (!this.validateForm()) {
-        this.showNotification('Please fix the errors above', 'error');
-        return;
-      }
+  if (this.isSubmitting) return;
 
-      const websiteUrl = document.getElementById('websiteUrl').value.trim();
-      const businessContent = document.getElementById('businessContent').value.trim();
-      const billingType = document.querySelector('input[name="billing"]:checked')?.value || 'monthly';
-      const submitBtn = document.getElementById('submitWebsiteBtn');
+  if (!this.validateForm()) {
+    this.showNotification('Please fix the errors above', 'error');
+    return;
+  }
 
-      this.isSubmitting = true;
-      if (submitBtn) {
-        submitBtn.classList.add('wm-loading');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="wm-spin">
-            <path d="M21 12a9 9 0 11-6.219-8.56"/>
-          </svg>
-          Processing...
-        `;
-      }
+  const websiteUrl = document.getElementById('websiteUrl').value.trim();
+  const businessContent = document.getElementById('businessContent').value.trim();
+  const billingType = document.querySelector('input[name="billing"]:checked')?.value || 'monthly';
+  const submitBtn = document.getElementById('submitWebsiteBtn');
 
-      try {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        const planType = billingType === 'monthly' ? 'Monthly' : 'Yearly';
-        const cost = billingType === 'monthly' ? '$29/month' : '$240/year';
-        
-        this.showNotification(`Website added successfully! ${planType} plan (${cost}) activated.`, 'success');
-        
-        console.log('Website added:', {
-          url: websiteUrl,
-          content: businessContent,
-          billing: billingType,
-          timestamp: new Date().toISOString()
-        });
-        
-        this.closeModal();
-        
-      } catch (error) {
-        console.error('Error submitting website:', error);
-        this.showNotification('Failed to add website. Please try again.', 'error');
-      } finally {
-        this.isSubmitting = false;
-        if (submitBtn) {
-          submitBtn.classList.remove('wm-loading');
-          submitBtn.disabled = false;
-          this.updatePricingDisplay();
-        }
-      }
+  const planType = billingType === 'monthly' ? 'Monthly' : 'Yearly';
+  const price = billingType === 'monthly' ? 1499 : 14999; // In cents
+  const currency = 'usd';
+
+  this.isSubmitting = true;
+  if (submitBtn) {
+    submitBtn.classList.add('wm-loading');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="wm-spin">
+        <path d="M21 12a9 9 0 11-6.219-8.56"/>
+      </svg>
+      Processing...
+    `;
+  }
+
+  try {
+    const response = await fetch('payment/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: websiteUrl,
+        content: businessContent,
+        billing: billingType,
+        price,
+        currency,
+        planType
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.sessionId) {
+      throw new Error(data.error || 'Stripe session creation failed');
     }
+
+    const stripe = Stripe('pk_test_51RsmhfJEfVkh0GZaqesGb83cGZ9y2loXvJ2C1QrnsuP3bFBvRXzbxS4JaNxPDosfw7mD1aYhJMQXu08TdUYyGLNm00leiWTGHp'); // Replace with your real public key
+    await stripe.redirectToCheckout({ sessionId: data.sessionId });
+
+    // No need to continue after redirect
+
+  } catch (error) {
+    console.error('Error submitting website:', error);
+    this.showNotification('Failed to redirect to payment. Please try again.', 'error');
+    this.isSubmitting = false;
+    if (submitBtn) {
+      submitBtn.classList.remove('wm-loading');
+      submitBtn.disabled = false;
+      this.updatePricingDisplay();
+    }
+  }
+}
+
 
     showNotification(message, type = 'info') {
       // Remove existing notifications

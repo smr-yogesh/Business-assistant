@@ -6,7 +6,7 @@ class ClientSite(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
-    business_id = db.Column(db.Integer, nullable=False)
+    business_id = db.Column(db.String(128), nullable=False)
     site_url = db.Column(db.String(255), nullable=False)
     subscription_type = db.Column(db.String(50), nullable=False)
     subscription_start = db.Column(db.DateTime, nullable=False)

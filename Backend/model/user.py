@@ -30,6 +30,7 @@ class User(db.Model):
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
     last_login = db.Column(db.DateTime)
+    stripe_customer_id = db.Column(db.String(120), unique=True, nullable=True)
 
     def __repr__(self):
         return f"<User {self.email}>"

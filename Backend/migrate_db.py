@@ -4,32 +4,27 @@ from sqlalchemy import text
 
 
 def run_migrations():
-    """Run custom database migrations without resetting data."""
     with app.app_context():
-        migrations = [
-            # 1. Add new columns (safe, won't fail if already exists)
+        stmts = [
+            # 1) Normalize any existing uppercase statuses
+            "UPDATE subscription SET status = LOWER(status) WHERE status <> LOWER(status);",
+            # 2) Replace the check constraint with a case-insensitive version
+            "ALTER TABLE subscription DROP CONSTRAINT IF EXISTS subscription_status_check;",
             """
-            CREATE TABLE IF NOT EXISTS client_site (
-                id SERIAL PRIMARY KEY,
-                user_id INTEGER NOT NULL,
-                business_id INTEGER NOT NULL,
-                site_url VARCHAR(255) NOT NULL,
-                subscription_type VARCHAR(50) NOT NULL,
-                subscription_start TIMESTAMP NOT NULL,
-                subscription_end TIMESTAMP NOT NULL
-            );
-
+            ALTER TABLE subscription
+            ADD CONSTRAINT subscription_status_check
+            CHECK (LOWER(status) IN (
+                'incomplete','incomplete_expired','trialing','active','past_due','canceled','unpaid'
+            ));
             """,
-            # Add more migration SQL here as needed...
         ]
-
-        for migration in migrations:
+        for sql in stmts:
             try:
-                db.session.execute(text(migration))
+                db.session.execute(text(sql))
                 db.session.commit()
-                print(f"Migration executed: {migration[:60].strip()}...")
+                print("OK:", sql.splitlines()[0][:80], "...")
             except Exception as e:
-                print(f"Migration failed: {str(e)}")
+                print("ERR:", e)
                 db.session.rollback()
 
 
