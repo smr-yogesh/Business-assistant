@@ -1,3 +1,24 @@
+// Capture the <script> that loaded THIS file while it's executing
+const _WIDGET_SCRIPT = document.currentScript || (function () {
+  const scripts = Array.from(document.getElementsByTagName('script'));
+  // find the one that looks like widget.js, with or without params or path bits
+  return scripts.reverse().find(s => /\/widget\.js(\b|[\?\/#])/.test(s.src));
+})();
+
+function getBusinessIdFromScript() {
+  const s = _WIDGET_SCRIPT;
+  const src = s?.src || "";
+  return (
+    // allow data attribute too: <script data-business="my-id" ...>
+    s?.dataset?.business ||
+    // ?business=my-id
+    new URL(src, location.href).searchParams.get("business") ||
+    // /widget.js/business=my-id
+    (src.match(/business=([^\/\?#]+)/)?.[1]) ||
+    null
+  );
+}
+
 (function () {
   if (window.__bizbot_loaded) return;
   window.__bizbot_loaded = true;
@@ -17,29 +38,6 @@
 
   // Inject Widget HTML (minified for clarity; expand if you wish)
   var widgetHTML = `
-  <div id="adminPanel" class="admin-panel hidden">
-    <div class="admin-content">
-      <div class="admin-header">
-        <h3>🤖 BizBot Setup</h3>
-        <button id="closeAdmin" class="close-btn">&times;</button>
-      </div>
-      <div class="admin-body">
-        <div class="input-group">
-          <label for="businessIdInput">Business ID</label>
-          <input id="businessIdInput" placeholder="e.g. nimbus-noodles" />
-        </div>
-        <div class="input-group">
-          <label for="documentInput">Business Content</label>
-          <textarea id="documentInput" placeholder="Paste your business content here (menus, FAQs, services, etc.)..."></textarea>
-        </div>
-        <button id="submitDoc" class="submit-btn">
-          <span class="btn-text">Submit Content</span>
-          <span class="btn-loading hidden">Submitting...</span>
-        </button>
-        <p id="docResponse" class="response-message"></p>
-      </div>
-    </div>
-  </div>
   <div id="chatToggleBtn" class="chat-toggle" title="Chat with BizBot!">
     <div class="chat-icon">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -61,9 +59,6 @@
           <span class="status"><div class="status-dot"></div>Online</span>
         </div>
       </div>
-      <button id="adminToggle" class="admin-toggle" title="Admin Settings">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2"/></svg>
-      </button>
     </div>
     <div id="chatbox" class="chatbox">
       <div class="welcome-message">
@@ -105,7 +100,8 @@
     constructor() {
       this.isOpen = false;
       this.isTyping = false;
-      this.businessId = "";
+      this.businessId = this.businessId || getBusinessIdFromScript();
+      console.log("BizBot businessId:", this.businessId);
       this.apiBaseUrl = "http://127.0.0.1:5000/api"; // BASE API URL
       this.initializeWidget();
       this.bindEvents();
@@ -117,9 +113,6 @@
       this.chatbox = document.getElementById("chatbox");
       this.userInput = document.getElementById("userInput");
       this.sendBtn = document.getElementById("sendBtn");
-      this.adminPanel = document.getElementById("adminPanel");
-      this.adminToggle = document.getElementById("adminToggle");
-      this.closeAdmin = document.getElementById("closeAdmin");
       this.submitDoc = document.getElementById("submitDoc");
       this.businessIdInput = document.getElementById("businessIdInput");
       this.documentInput = document.getElementById("documentInput");
@@ -134,8 +127,6 @@
           this.sendMessage();
         }
       });
-      this.adminToggle.addEventListener("click", () => this.showAdminPanel());
-      this.closeAdmin.addEventListener("click", () => this.hideAdminPanel());
       this.submitDoc.addEventListener("click", () => this.addBusinessDocument());
       this.adminPanel.addEventListener("click", (e) => {
         if (e.target === this.adminPanel) {
@@ -180,7 +171,7 @@
           },
           body: JSON.stringify({
             query: message,
-            business_id: this.businessId || "BizBot"
+            business_id: this.businessId
           }),
         });
         const data = await response.json();
@@ -248,56 +239,6 @@
       const typingMessage = this.chatbox.querySelector(".typing-message");
       if (typingMessage) {
         typingMessage.remove();
-      }
-    }
-
-    showAdminPanel() {
-      this.adminPanel.classList.remove("hidden");
-      this.businessIdInput.focus();
-    }
-
-    hideAdminPanel() {
-      this.adminPanel.classList.add("hidden");
-      this.clearAdminForm();
-    }
-
-    async addBusinessDocument() {
-      const businessId = this.businessIdInput.value.trim();
-      const document = this.documentInput.value.trim();
-      if (!businessId || !document) {
-        this.showResponse("Please fill in both Business ID and content.", "error");
-        return;
-      }
-      this.submitDoc.disabled = true;
-      this.submitDoc.querySelector(".btn-text").classList.add("hidden");
-      this.submitDoc.querySelector(".btn-loading").classList.remove("hidden");
-      try {
-        const response = await fetch(`${this.apiBaseUrl}/add_document`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            business_id: businessId,
-            content: document,
-          }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-          this.businessId = businessId;
-          this.showResponse("Business content added successfully!", "success");
-          setTimeout(() => {
-            this.hideAdminPanel();
-          }, 2000);
-        } else {
-          this.showResponse(data.error || "Failed to add business content.", "error");
-        }
-      } catch (error) {
-        this.showResponse("Failed to connect to server. Please try again.", "error");
-      } finally {
-        this.submitDoc.disabled = false;
-        this.submitDoc.querySelector(".btn-text").classList.remove("hidden");
-        this.submitDoc.querySelector(".btn-loading").classList.add("hidden");
       }
     }
 

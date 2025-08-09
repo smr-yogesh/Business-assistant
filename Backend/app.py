@@ -3,6 +3,7 @@ from flask_cors import CORS
 from routes.api import api_bp
 from routes.dashboard import dash_bp
 from routes.auth import auth_bp
+from routes.payment import payment_bp
 from datetime import datetime, timedelta
 from utils.extensions import db, bcrypt, jwt
 from config import Config
@@ -24,6 +25,7 @@ app.config.from_object(Config)
 app.register_blueprint(api_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(dash_bp)
+app.register_blueprint(payment_bp)
 
 
 CORS(app)
@@ -35,6 +37,16 @@ jwt.init_app(app)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/billing/success")
+def success():
+    return render_template("dashboard/payment_success.html")
+
+
+@app.route("/billing/cancel")
+def cancel():
+    return render_template("dashboard/payment_canceled.html")
 
 
 @app.route("/tos")
