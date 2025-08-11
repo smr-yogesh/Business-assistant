@@ -1,0 +1,87 @@
+/* Auth-specific styles */
+.message-success {
+  @apply p-3 text-sm bg-green-50 border border-green-200 text-green-600 rounded-lg;
+}
+
+.message-error {
+  @apply p-3 text-sm bg-red-50 border border-red-200 text-red-600 rounded-lg;
+}
+
+.message-warning {
+  @apply p-3 text-sm bg-yellow-50 border border-yellow-200 text-yellow-600 rounded-lg;
+}
+
+.input-error {
+  @apply border-red-300 focus-visible:ring-red-500;
+}
+
+.btn-loading {
+  @apply opacity-75 cursor-not-allowed;
+}
+
+.btn-loading::after {
+  content: "";
+  @apply inline-block w-4 h-4 ml-2 border-2 border-white border-t-transparent rounded-full animate-spin;
+}
+
+/* Password strength indicator */
+.password-strength {
+  @apply mt-1 text-xs;
+}
+
+.password-strength.weak {
+  @apply text-red-500;
+}
+
+.password-strength.medium {
+  @apply text-yellow-500;
+}
+
+.password-strength.strong {
+  @apply text-green-500;
+}
+
+/* Focus management */
+.focus-target:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Accessibility improvements */
+[aria-live] {
+  @apply sr-only;
+}
+
+[aria-live]:not(:empty) {
+  @apply not-sr-only;
+}
+
+/* Animation for state transitions */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-in-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

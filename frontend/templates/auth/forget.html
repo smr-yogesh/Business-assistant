@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password - BizBot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col">
+    <!-- Header -->
+    <header class="container mx-auto px-4 py-6">
+        <nav class="flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-gray-900">BizBot</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Forgot Password Form -->
+    <div class="flex-1 flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-md border-0 shadow-xl rounded-2xl bg-white">
+            <div class="space-y-1 text-center p-6">
+                <h2 class="text-2xl font-bold">Forgot your password?</h2>
+                <p class="text-sm text-gray-600">Enter your email and we'll send a reset link.</p>
+            </div>
+            
+            <!-- Initial Form -->
+            <div id="forgot-form-container">
+                <form id="forgot-form">
+                    <div class="space-y-4 p-6 pt-0">
+                        <div id="forgot-msg" class="hidden" aria-live="polite" role="alert"></div>
+                        
+                        <div class="space-y-2">
+                            <label for="email" class="text-sm font-medium leading-none">Email</label>
+                            <input
+                                id="email"
+                                type="email"
+                                placeholder="name@example.com"
+                                required
+                                class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col space-y-4 p-6 pt-0">
+                        <button
+                            type="submit"
+                            id="forgot-submit"
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-10 px-4 py-2"
+                        >
+                            Send reset link
+                        </button>
+                        <div class="text-center text-sm">
+                            Remember your password? 
+                            <a href={{ url_for('auth.signin') }} class="text-blue-600 hover:text-blue-800 hover:underline font-medium">Sign in</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Success State (hidden initially) -->
+            <div id="forgot-success" class="hidden p-6">
+                <div class="text-center space-y-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold">Check your email</h3>
+                    <p class="text-sm text-gray-600" id="success-message">
+                        If an account exists for <span id="email-display"></span>, you'll get a link to reset your password.
+                    </p>
+                    <button
+                        id="resend-btn"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-full bg-gray-100 hover:bg-gray-200 text-gray-900 h-10 px-4 py-2 disabled:bg-gray-50 disabled:text-gray-400"
+                        disabled
+                    >
+                        <span id="resend-timer">Resend in 60s</span>
+                    </button>
+                    <div class="text-center text-sm">
+                        <a href={{ url_for('auth.signin') }} class="text-blue-600 hover:text-blue-800 hover:underline font-medium">Back to sign in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex justify-center">
+            <a href="/" class="flex items-center text-gray-500 hover:text-gray-700">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Back to home
+            </a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/in/api.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/in/auth.js') }}"></script>
+</body>
+</html>

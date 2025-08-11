@@ -55,6 +55,18 @@ class User(db.Model):
         }
 
 
+class PasswordResetToken(db.Model):
+    __tablename__ = "password_reset_token"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False, index=True)
+    token_hash = db.Column(db.String(64), nullable=False, index=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    expires_at = db.Column(db.DateTime, nullable=False)
+    used_at = db.Column(db.DateTime, nullable=True)
+    request_ip = db.Column(db.String(64), nullable=True)
+    user_agent = db.Column(db.String(256), nullable=True)
+
+
 def validate_password(password):
     """Validate password strength"""
     if len(password) < 8:

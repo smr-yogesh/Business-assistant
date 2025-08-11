@@ -46,7 +46,7 @@
                     <div class="space-y-2">
                         <div class="flex items-center justify-between">
                             <label for="password" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Password</label>
-                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Forgot password?</a>
+                            <a href={{ url_for('auth.forgotPassword') }} class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Forgot password?</a>
                         </div>
                         <input
                             id="password"

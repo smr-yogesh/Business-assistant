@@ -40,3 +40,18 @@ def verify_email():
     return render_template(
         "email_verified.html"
     )  # Or redirect to dashboard with "verified" message
+
+
+@auth_bp.route("/forgot_password")
+def forgotPassword():
+    return render_template("auth/forget.html")
+
+
+@auth_bp.route("/reset")
+def reset():
+    return render_template("auth/reset.html")
+
+
+@auth_bp.route("/reset_success")
+def reset_success():
+    return render_template("auth/reset_success.html")
