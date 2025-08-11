@@ -4,6 +4,7 @@ from routes.api import api_bp
 from routes.dashboard import dash_bp
 from routes.auth import auth_bp
 from routes.payment import payment_bp
+from routes.password_reset import password_reset_bp
 from datetime import datetime, timedelta
 from utils.extensions import db, bcrypt, jwt
 from config import Config
@@ -24,6 +25,7 @@ app.config.from_object(Config)
 
 app.register_blueprint(api_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(password_reset_bp)
 app.register_blueprint(dash_bp)
 app.register_blueprint(payment_bp)
 

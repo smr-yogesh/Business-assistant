@@ -6,17 +6,20 @@ from sqlalchemy import text
 def run_migrations():
     with app.app_context():
         stmts = [
-            # 1) Normalize any existing uppercase statuses
-            "UPDATE subscription SET status = LOWER(status) WHERE status <> LOWER(status);",
-            # 2) Replace the check constraint with a case-insensitive version
-            "ALTER TABLE subscription DROP CONSTRAINT IF EXISTS subscription_status_check;",
             """
-            ALTER TABLE subscription
-            ADD CONSTRAINT subscription_status_check
-            CHECK (LOWER(status) IN (
-                'incomplete','incomplete_expired','trialing','active','past_due','canceled','unpaid'
-            ));
-            """,
+                CREATE TABLE IF NOT EXISTS password_reset_token (
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER NOT NULL,
+                    token_hash VARCHAR(64) NOT NULL,           -- SHA-256 hex
+                    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+                    expires_at TIMESTAMP NOT NULL,
+                    used_at TIMESTAMP,
+                    request_ip VARCHAR(64),
+                    user_agent VARCHAR(256)
+                );
+                """,
+            "CREATE INDEX IF NOT EXISTS ix_prt_user_id ON password_reset_token(user_id);",
+            "CREATE INDEX IF NOT EXISTS ix_prt_token_hash ON password_reset_token(token_hash);",
         ]
         for sql in stmts:
             try:
